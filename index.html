@@ -1,0 +1,21 @@
+<h1 id="output">Set ?a=0&s=[rot13str]</h1>
+<script>
+    const rot = (s, i) => {
+        return s.replace(/[a-zA-Z]/g, function (c) {
+            return String.fromCharCode((c <= 'Z' ? 90 : 122) >= (c = c.charCodeAt(0) + i) ? c : c - 26);
+        });
+    }
+
+    const main = () => {
+        const params = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+        });
+
+        if (params.a == "0" && params.s) {
+            const output = document.querySelector("#output")
+            output.textContent = rot(params.s, 13);
+        }
+    }
+
+    addEventListener("load", main)
+</script>
